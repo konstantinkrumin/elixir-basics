@@ -45,7 +45,7 @@ is_number(13) # true
     функций и модулей, обработки типов данных и так далее.
 """
 
-#########################
+###### ASSIGNMENT ######
 defmodule My.Super.Module do 
     def hello do
         IO.puts("Hello, World!")
