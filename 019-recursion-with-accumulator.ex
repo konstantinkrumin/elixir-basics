@@ -140,7 +140,6 @@ Solution.split_teens_and_adults(users)
     Solution.filter_by_age(users, 14) # [{:user, 1, "Bob", 23}, {:user, 2, "Helen", 20}, {:user, 3, "Bill", 15}]
     Solution.filter_by_age(users, 22) # [{:user, 1, "Bob", 23}]
 """
-
 defmodule Solution do
   def filter_by_age(users, age), do: do_filter_by_age(users, age, [])
 
