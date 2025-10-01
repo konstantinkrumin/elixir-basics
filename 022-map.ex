@@ -74,3 +74,17 @@ defmodule Solution do
     end
   end
 end
+
+# ALTERNATIVE SOLUTION
+defmodule Solution do
+  def zip([], []), do: []
+
+  def zip(first, second) do
+    len = max(length(first), length(second))
+    range = 0..(len - 1)
+
+    Enum.map(range, fn index ->
+      [Enum.at(first, index), Enum.at(second, index)]
+    end)
+  end
+end
