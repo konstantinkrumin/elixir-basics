@@ -163,7 +163,7 @@ defmodule Solution do
   end
 end
 
-# ALTERNATIVE SOLUTIOn
+# ALTERNATIVE SOLUTION
 defmodule User do
   defstruct name: "John"
 end
