@@ -163,43 +163,33 @@ end
 defmodule Accumulator do
   use Agent
 
-  def start_link(initial_value) do
-    Agent.start_link(fn -> initial_value end, name: __MODULE__)
+  def start_link(initial \\ 0) do
+    Agent.start_link(fn -> initial end, name: __MODULE__)
   end
 
   def current do
-    Agent.get(__MODULE__, fn state -> state end)
+    Agent.get(__MODULE__, & &1)
   end
 
   def reset do
     Agent.update(__MODULE__, fn _ -> 0 end)
-  end
-
-  def add(number) do
-    Task.start(fn -> 
-        Agent.update(__MODULE__, fn state -> state + number end )
-    end)
     :ok
   end
 
-  def sub(number) do
-    Task.start(fn -> 
-        Agent.update(__MODULE__, fn state -> state - number end )
-    end)
-    :ok
-  end
+  def add(number), do: async_op(:+, number)
+  def sub(number), do: async_op(:-, number)
+  def mul(number), do: async_op(:*, number)
+  def div(number), do: async_op(:/, number)
 
-  def mul(number) do
-    Task.start(fn -> 
-        Agent.update(__MODULE__, fn state -> state * number end )
-    end)
-    :ok
-  end
+  defp async_op(op, number) do
+    task =
+      Task.async(fn ->
+        Agent.update(__MODULE__, fn state ->
+          Calculator.exec(op, state, number)
+        end)
+      end)
 
-  def div(number) do
-    Task.start(fn -> 
-        Agent.update(__MODULE__, fn state -> state / number end )
-    end)
+    Task.await(task, :infinity)
     :ok
   end
 end
